@@ -23,6 +23,16 @@ class Connect:
         ch.basic_ack(delivery_tag = method.delivery_tag)
 
 
+class Producer:
+    def __init__(self, host='amqp://localhost/'):
+        self.client = pika.Client()
+
+    def start(self):
+        while True:
+            received_message = self.client.wait(self.connect())
+            print(received_message['body'])
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='pymessa.')
     parser.add_argument('--queuename', help='Set queuename')
